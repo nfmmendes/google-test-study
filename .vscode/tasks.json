@@ -3,10 +3,10 @@
     "tasks": [
         {
             "type": "cmake",
-            "label": "Build Move Semantics",
+            "label": "Build Minimal Test",
             "command": "build",
             "targets": [
-                "move-semantics-examples"
+                "firstTest"
             ],
             "group": "build",
             "problemMatcher": []

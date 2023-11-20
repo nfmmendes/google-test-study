@@ -1,18 +1,18 @@
 {
-    "configurations": [
-        {
-            "name": "Move semantics (Example 1)",
-            "type": "cppdbg",
-            "args": [],
-            "preLaunchTask": "Build Move Semantics",
-            "stopAtEntry": false,
-            "request": "launch",
-            "program": "${workspaceFolder}/Move semantics/build/./MoveSemantics_example1",
-            "console": "internalConsole",
-            "logging": {
-                "moduleLoad": false
-            },
-            "cwd": "${workspaceFolder}",
-        }
-    ]
+  "configurations": [
+    {
+      "name": "Minimal test",
+      "type": "cppdbg",
+      "args": [],
+      "preLaunchTask": "Build Minimal Test",
+      "stopAtEntry": false,
+      "request": "launch",
+      "program": "${workspaceFolder}/build/./firstTest",
+      "console": "internalConsole",
+      "logging": {
+        "moduleLoad": false
+      },
+      "cwd": "${workspaceFolder}"
+    }
+  ]
 }
