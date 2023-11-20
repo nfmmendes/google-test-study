@@ -1,15 +1,21 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "cmake",
-            "label": "Build Minimal Test",
-            "command": "build",
-            "targets": [
-                "firstTest"
-            ],
-            "group": "build",
-            "problemMatcher": []
-        },
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "cmake",
+      "label": "Build Minimal Test",
+      "command": "build",
+      "targets": ["firstTest"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "type": "cmake",
+      "label": "Build Example 1",
+      "command": "build",
+      "targets": ["example1"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
 }

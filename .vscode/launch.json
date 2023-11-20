@@ -13,6 +13,20 @@
         "moduleLoad": false
       },
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Example 1",
+      "type": "cppdbg",
+      "args": [],
+      "preLaunchTask": "Build Example 1",
+      "stopAtEntry": false,
+      "request": "launch",
+      "program": "${workspaceFolder}/build/./example1",
+      "console": "internalConsole",
+      "logging": {
+        "moduleLoad": false
+      },
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
