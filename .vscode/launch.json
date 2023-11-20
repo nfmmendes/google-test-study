@@ -29,13 +29,27 @@
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Example 1",
+      "name": "Example 2",
       "type": "cppdbg",
       "args": [],
       "preLaunchTask": "Build Example 2",
       "stopAtEntry": false,
       "request": "launch",
       "program": "${workspaceFolder}/build/./example2",
+      "console": "internalConsole",
+      "logging": {
+        "moduleLoad": false
+      },
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Example 3",
+      "type": "cppdbg",
+      "args": [],
+      "preLaunchTask": "Build Example 3",
+      "stopAtEntry": false,
+      "request": "launch",
+      "program": "${workspaceFolder}/build/./example3",
       "console": "internalConsole",
       "logging": {
         "moduleLoad": false

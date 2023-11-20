@@ -25,5 +25,8 @@ target_link_libraries(example1 GTest::gtest_main)
 add_executable(example2 example2.cpp)
 target_link_libraries(example2 GTest::gtest_main)
 
+add_executable(example3 example3.cpp)
+target_link_libraries(example3 GTest::gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(firstTest)
