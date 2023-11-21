@@ -40,6 +40,14 @@
       "targets": ["example4"],
       "group": "build",
       "problemMatcher": []
+    },
+    {
+      "type": "cmake",
+      "label": "Build Example 5",
+      "command": "build",
+      "targets": ["example5"],
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
