@@ -37,5 +37,8 @@ target_link_libraries(example5 GTest::gtest_main)
 add_executable(example6 example6.cpp)
 target_link_libraries(example6 GTest::gtest_main)
 
+add_executable(example7 example7.cpp)
+target_link_libraries(example7 GTest::gtest_main GTest::gmock_main)
+
 include(GoogleTest)
 gtest_discover_tests(firstTest)
