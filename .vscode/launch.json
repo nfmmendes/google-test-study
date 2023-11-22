@@ -83,6 +83,20 @@
         "moduleLoad": false
       },
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Example 6",
+      "type": "cppdbg",
+      "args": [],
+      "preLaunchTask": "Build Example 6",
+      "stopAtEntry": false,
+      "request": "launch",
+      "program": "${workspaceFolder}/build/./example6",
+      "console": "internalConsole",
+      "logging": {
+        "moduleLoad": false
+      },
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
