@@ -72,6 +72,13 @@
       "targets": ["example8"],
       "group": "build",
       "problemMatcher": []
+    }, {
+      "type": "cmake",
+      "label": "Build Api Client Test",
+      "command": "build",
+      "targets": ["apiTest"],
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
