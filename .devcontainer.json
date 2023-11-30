@@ -1,0 +1,7 @@
+{
+    "dockerFile": "docker/DockerFile",
+    "runArgs": ["--rm"],
+    "extensions": [
+        "ms-vscode.cpptools-extension-pack"
+    ]
+}

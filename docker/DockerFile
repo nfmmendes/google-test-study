@@ -1,0 +1,22 @@
+# Use the official Ubuntu as the base image
+FROM ubuntu:23.10@sha256:13f233a16be210b57907b98b0d927ceff7571df390701e14fe1f3901b2c4a4d7
+
+# Update package lists and install necessary packages
+RUN apt update && apt install -y \
+    build-essential \
+    cmake \
+    gdb \
+    vim \
+    sudo \
+    apt-transport-https \
+    git \
+    git-lfs \
+    g++ \
+    unzip \
+    && apt-get clean
+
+
+RUN git config --global core.editor "vim"
+
+# Start Visual Studio Code Server when the container runs
+CMD /bin/bash

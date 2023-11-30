@@ -1,0 +1,12 @@
+{
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        100
+    ],
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "cmake.sourceDirectory": "/workspaces/googleTest-course"
+}

@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cmake",
+            "label": "Build Move Semantics",
+            "command": "build",
+            "targets": [
+                "move-semantics-examples"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+    ]
+}
