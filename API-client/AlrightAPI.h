@@ -30,6 +30,15 @@ enum DishCategory
 
 static const vector<string> DISH_CATEGORY_TO_STRING = {"Primo", "Secondo", "Contorno"};
 
+enum OrderStatus
+{
+    PENDING,
+    CANCELED,
+    FINISHED
+};
+
+static const vector<string> ORDER_STATUS_TO_STRING = {"PENDING", "CANCELED", "FINISHED"};
+
 struct Date
 {
     unsigned day;
@@ -86,6 +95,14 @@ struct ConsumerDTO
     string name;
     string id;
     string hasPriority;
+};
+
+struct Order
+{
+    string id;
+    OrderStatus status;
+    string consumerId;
+    vector<string> dishIds;
 };
 
 class AlrightAPIClient
@@ -167,15 +184,50 @@ public:
     }
 
     // Clients orders requests
-    void orderDishes(string consumerId, string disheId...)
+    void orderDishes(string consumerId, const vector<string> &disheIds)
     {
         Header header;
         HttpResponse response;
-        // httpClient->Post("order/consumer/id/" + consumerId + "/dish/id/" + disheId, header, response);
-        vector<string> disheIds{disheId};
+
+        string concatenedString = "";
+        std::for_each(begin(disheIds), end(disheIds), [&concatenedString](string str)
+                      { concatenedString += (str + ","); });
+        concatenedString.erase(concatenedString.length() - 1, 1);
+        string data = "[" + concatenedString + "]";
+
+        httpClient->Post("order/consumer/id/" + consumerId + "/dishes", header, data, response);
     }
 
     // Self-service
+    vector<Order> getOrders(Date date = Date::today())
+    {
+        Header header;
+        HttpResponse response;
+
+        httpClient->Get("order/date/" + date.toString(), header, response);
+
+        return vector<Order>();
+    }
+
+    Order getOrder(string orderId)
+    {
+        Header header;
+        HttpResponse response;
+
+        httpClient->Get("order/id/" + orderId, header, response);
+
+        return Order();
+    }
+
+    vector<Order> getPendingOrders()
+    {
+        Header header;
+        HttpResponse response;
+
+        httpClient->Get("order/date" + Date::today().toString() + "/status/" + ORDER_STATUS_TO_STRING[OrderStatus::PENDING], header, response);
+
+        return vector<Order>();
+    }
 
 private:
     HttpClientInterface *httpClient{};
