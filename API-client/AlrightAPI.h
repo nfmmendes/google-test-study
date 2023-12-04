@@ -12,6 +12,7 @@
 using std::array;
 using std::map;
 using std::pair;
+using std::remove_if;
 using std::shared_ptr;
 using std::string;
 using std::unique_ptr;
@@ -28,7 +29,11 @@ enum DishCategory
     SIDE
 };
 
-static const vector<string> DISH_CATEGORY_TO_STRING = {"Primo", "Secondo", "Contorno"};
+namespace
+{
+    static const vector<string> DISH_CATEGORY_TO_STRING = {"Primo", "Secondo", "Contorno"};
+    static const map<string, DishCategory> DISH_CATEGORY_FROM_STRING = {{"Primo", ENTRY}, {"Secondo", MAIN}, {"Contorno", SIDE}};
+}
 
 enum OrderStatus
 {
@@ -73,6 +78,33 @@ struct Date
     {
         return std::to_string(day) + "-" + std::to_string(month) + "-" + std::to_string(year);
     }
+
+    static Date fromString(string dateString)
+    {
+        string accumulator;
+        int values[3];
+        int position = 0;
+
+        for (auto i = 0; i < dateString.length(); i++)
+        {
+            if (dateString[i] != '-')
+                accumulator += dateString[i];
+            else
+            {
+                accumulator.erase(remove(begin(accumulator), end(accumulator), '\"'), end(accumulator));
+                values[position] = stoi(accumulator);
+                accumulator = "";
+                position++;
+                if (position > 2)
+                    break;
+            }
+        }
+
+        if (!accumulator.empty() && position < 3)
+            values[position] = stoi(accumulator);
+
+        return Date(values[0], values[1], values[2]);
+    }
 };
 
 struct DishDTO
@@ -82,12 +114,98 @@ struct DishDTO
     string description;
     string id;
     string pictureUrl;
+
+    static DishDTO fromJson(string jsonData)
+    {
+        bool isReadingKey = true;
+        string key;
+        string value;
+        map<string, string> result;
+
+        for (auto i = 0; i < jsonData.length(); i++)
+        {
+            if (jsonData[i] == ':')
+            {
+                isReadingKey = false;
+                continue;
+            }
+
+            if (jsonData[i] == ' ')
+                continue;
+            if (jsonData[i] == ',')
+            {
+                key.erase(remove(begin(key), end(key), '\"'), end(key));
+                value.erase(remove(begin(value), end(value), '\"'), end(value));
+                result[key] = value;
+                key = "";
+                value = "";
+                isReadingKey = true;
+                continue;
+            }
+
+            if (isReadingKey)
+                key += jsonData[i];
+            else
+                value += jsonData[i];
+        }
+
+        if (result.contains("id") && result.contains("name") && result.contains("category"))
+        {
+            DishDTO returnObject;
+            returnObject.id = result["id"];
+            returnObject.name = result["name"];
+            returnObject.dishCategory = DISH_CATEGORY_FROM_STRING.at(result["category"]);
+            returnObject.description = result["description"];
+            returnObject.pictureUrl = result["pictureURL"];
+
+            return returnObject;
+        }
+
+        return DishDTO();
+    }
 };
 
 struct MenuDTO
 {
     Date date;
     vector<DishDTO> dishes;
+
+    static MenuDTO fromJson(string jsonData)
+    {
+        if (jsonData.empty())
+            return MenuDTO();
+
+        // Optimistic approach. For demo purposes only.
+        string date{};
+        for (int i = 7; i < jsonData.length(); i++)
+        {
+            if (jsonData[i] == '[')
+                break;
+            date += jsonData[i];
+        }
+
+        vector<string> entries;
+        string newEntry = "";
+        // The first caracter is '[' (not useful).
+        for (auto i = date.length() + 1; i < jsonData.length(); i++)
+        {
+            if (jsonData[i] == '{')
+                continue;
+            if (jsonData[i] != '}')
+                newEntry += jsonData[i];
+            else
+            {
+                entries.push_back(newEntry);
+                newEntry = "";
+            }
+        }
+
+        vector<DishDTO> dishes;
+        for (auto item : entries)
+            dishes.push_back(DishDTO::fromJson(item));
+
+        return MenuDTO(Date::fromString(date), dishes);
+    }
 };
 
 struct ConsumerDTO
@@ -122,7 +240,7 @@ public:
 
         if (response.code == 200)
         {
-            menu.dishes.resize(4); // Replace by some real code.
+            menu = MenuDTO::fromJson(response.strBody);
         }
 
         return menu;
@@ -224,7 +342,7 @@ public:
         Header header;
         HttpResponse response;
 
-        httpClient->Get("order/date" + Date::today().toString() + "/status/" + ORDER_STATUS_TO_STRING[OrderStatus::PENDING], header, response);
+        httpClient->Get("order/date/" + Date::today().toString() + "/status/" + ORDER_STATUS_TO_STRING[OrderStatus::PENDING], header, response);
 
         return vector<Order>();
     }
