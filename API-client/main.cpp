@@ -132,4 +132,5 @@ TEST(HttpClient, testReturnedData)
 
     auto menu = api.getMenu();
     EXPECT_EQ(menu.dishes.size(), 7);
+    ASSERT_EQ(menu.date, Date::tomorrow()) << "The returned date (" + menu.date.toString() + ")  is different of (" + Date::tomorrow().toString() + ")";
 }

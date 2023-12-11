@@ -11,6 +11,7 @@
 #include <algorithm>
 using std::array;
 using std::map;
+using std::ostream;
 using std::pair;
 using std::remove_if;
 using std::shared_ptr;
@@ -79,6 +80,11 @@ struct Date
         return std::to_string(day) + "-" + std::to_string(month) + "-" + std::to_string(year);
     }
 
+    bool operator==(const Date &other) const
+    {
+        return day == other.day && month == other.month && year == other.year;
+    }
+
     static Date fromString(string dateString)
     {
         string accumulator;
@@ -104,6 +110,12 @@ struct Date
             values[position] = stoi(accumulator);
 
         return Date(values[0], values[1], values[2]);
+    }
+
+    friend ostream &operator<<(ostream &os, const Date &other)
+    {
+        os << other.toString();
+        return os;
     }
 };
 
